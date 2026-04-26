@@ -7,8 +7,8 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Action Log">
 <meta name="theme-color" content="#080B18">
-<link rel="manifest" href="manifest.json">
-<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="manifest" href="/DailySovereignCheckIn/manifest.json">
+<link rel="apple-touch-icon" href="/DailySovereignCheckIn/icon-192.png">
 <title>ALRPG — Daily Action Log</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1955,7 +1955,7 @@ document.addEventListener('DOMContentLoaded', () => {
 // Service worker
 if('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js').catch(()=>{});
+    navigator.serviceWorker.register('/DailySovereignCheckIn/sw.js', {scope: '/DailySovereignCheckIn/'}).catch(()=>{});
   });
 }
 </script>
