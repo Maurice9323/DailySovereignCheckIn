@@ -1,24 +1,25 @@
 {
-  "name": "ALRPG — Daily Action Log",
+  "name": "ALRPG \u2014 Daily Action Log",
   "short_name": "Action Log",
-  "description": "Antihero Life RPG Daily Action Log — track XP, quests, and stats",
-  "start_url": "/",
+  "description": "Antihero Life RPG Daily Action Log \u2014 track XP, quests, and stats",
+  "start_url": "/DailySovereignCheckIn/",
   "display": "standalone",
   "background_color": "#070912",
   "theme_color": "#070912",
   "orientation": "portrait-primary",
   "icons": [
     {
-      "src": "icon-192.png",
+      "src": "/DailySovereignCheckIn/icon-192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "icon-512.png",
+      "src": "/DailySovereignCheckIn/icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
     }
-  ]
+  ],
+  "scope": "/DailySovereignCheckIn/"
 }
