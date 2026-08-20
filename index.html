@@ -761,6 +761,9 @@ body.fu { animation: flashU .6s ease; }
 
   <!-- HISTORY -->
   <div class="tab-panel" id="tab-history">
+    <div style="display:flex;justify-content:flex-end;margin-bottom:10px;">
+      <button class="save-btn" id="export-pdf-btn" style="width:auto;padding:8px 18px;font-size:.6rem;letter-spacing:.12em;">↓ Export PDF</button>
+    </div>
     <div class="search-wrap">
       <div class="search-lbl">Search Action Log</div>
       <div style="position:relative">
@@ -1694,6 +1697,89 @@ function switchTab(tab) {
 // ═══════════════════════════════════════════════════════
 // HELPERS
 // ═══════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════
+// PDF EXPORT
+// ═══════════════════════════════════════════════════════
+function exportHistoryPDF() {
+  const dates = Object.keys(S.history||{}).sort();
+  if (!dates.length) { showNotif('NO HISTORY', 'No archived days yet', 'Archive today first'); return; }
+
+  const arcName = S.setup.arcName || 'Sovereign Arc';
+  const cumulative = cumXP();
+
+  let rows = '';
+  let totalXP = 0;
+  dates.forEach(ds => {
+    const h = S.history[ds];
+    const g = h.grade === '—' ? 'X' : h.grade;
+    const gradeColor = {S:'#B8962E',A:'#4A8C5C',B:'#8A8A3A',C:'#8E8E93',X:'#555552'}[g]||'#555552';
+    totalXP += h.xp || 0;
+    rows += `
+      <tr>
+        <td>${fmtDate(ds)}</td>
+        <td style="color:${gradeColor};font-weight:700;text-align:center;">${g}</td>
+        <td style="text-align:right;">${h.xp || 0}</td>
+        <td style="color:#4A8C5C;text-align:right;">${h.trackXP?.good||0}</td>
+        <td style="color:#C49A1A;text-align:right;">${h.trackXP?.bad||0}</td>
+        <td style="color:#7A4A9C;text-align:right;">${h.trackXP?.ugly||0}</td>
+        <td style="text-align:center;">${h.questsDone||0}/16</td>
+      </tr>`;
+  });
+
+  const html = `<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>${arcName} — Action Log History</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Georgia', serif; background: #fff; color: #1a1a1a; padding: 40px; font-size: 12px; }
+  h1 { font-size: 22px; font-weight: 700; margin-bottom: 4px; }
+  .sub { font-size: 11px; color: #666; margin-bottom: 24px; }
+  .summary { display: flex; gap: 24px; margin-bottom: 24px; padding: 14px 18px; background: #f8f5f0; border-left: 3px solid #B8962E; }
+  .sm { text-align: center; }
+  .sm-val { font-size: 20px; font-weight: 700; color: #B8962E; }
+  .sm-lbl { font-size: 10px; color: #888; text-transform: uppercase; letter-spacing: 1px; margin-top: 2px; }
+  table { width: 100%; border-collapse: collapse; }
+  th { background: #1a1a1a; color: #B8962E; font-size: 10px; letter-spacing: 1px; text-transform: uppercase; padding: 8px 10px; text-align: left; }
+  th:not(:first-child) { text-align: right; }
+  th:nth-child(2) { text-align: center; }
+  th:last-child { text-align: center; }
+  td { padding: 8px 10px; border-bottom: 1px solid #eee; font-size: 11px; }
+  tr:nth-child(even) td { background: #fafafa; }
+  .footer { margin-top: 24px; font-size: 10px; color: #aaa; text-align: center; }
+</style>
+</head>
+<body>
+<h1>${arcName}</h1>
+<div class="sub">Daily Action Log Export · Generated ${new Date().toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'})}</div>
+<div class="summary">
+  <div class="sm"><div class="sm-val">${dates.length}</div><div class="sm-lbl">Days Logged</div></div>
+  <div class="sm"><div class="sm-val">${totalXP}</div><div class="sm-lbl">Total XP</div></div>
+  <div class="sm"><div class="sm-val">${cumulative}</div><div class="sm-lbl">Cumulative XP</div></div>
+  <div class="sm"><div class="sm-val">${curRank(cumulative).name}</div><div class="sm-lbl">Current Rank</div></div>
+  <div class="sm"><div class="sm-val">${S.streak.best}</div><div class="sm-lbl">Best Streak</div></div>
+</div>
+<table>
+  <thead>
+    <tr>
+      <th>Date</th><th>Grade</th><th>Total XP</th><th>Good</th><th>Bad</th><th>Ugly</th><th>Quests</th>
+    </tr>
+  </thead>
+  <tbody>${rows}</tbody>
+</table>
+<div class="footer">Antihero Life RPG System · ${arcName} · Sovereign</div>
+</body>
+</html>`;
+
+  const win = window.open('', '_blank');
+  if (!win) { showNotif('BLOCKED', 'Allow popups for this site', 'Then try again'); return; }
+  win.document.write(html);
+  win.document.close();
+  win.focus();
+  setTimeout(() => { win.print(); }, 400);
+}
+
 function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 function fmtDate(ds){ try{ return new Date(ds+'T12:00:00').toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric',year:'numeric'}).toUpperCase(); }catch(e){return ds;} }
 function flashOk(id){ const el=document.getElementById(id);if(!el)return;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),2200); }
@@ -1716,6 +1802,8 @@ function renderAll() {
 // ═══════════════════════════════════════════════════════
 async function init() {
   const loSub = document.getElementById('lo-sub');
+  // Clear stale date key so rollover recalculates from today
+  localStorage.removeItem('alrpg_last_date');
   loadState();
   if(loSub) loSub.textContent = 'Connecting…';
   const online = await initFirebase();
@@ -1901,6 +1989,8 @@ document.addEventListener('DOMContentLoaded', () => {
     S.setup.journal.notes      = document.getElementById('j-nts').value.trim();
     saveSetup(); flashOk('j-ok');
   });
+
+  document.getElementById('export-pdf-btn').addEventListener('click', exportHistoryPDF);
 
   document.getElementById('archive-btn').addEventListener('click', () => {
     if(!confirm('Archive today\'s data and reset the day?')) return;
