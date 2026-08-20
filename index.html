@@ -841,6 +841,12 @@ body.fu { animation: flashU .6s ease; }
       <div class="save-ok" id="j-ok">Journal saved.</div>
     </div>
     <div class="setup-sec">
+      <div class="setup-ttl">Week Management</div>
+      <div id="week-status" style="font-size:.58rem;color:var(--text-dim);margin-bottom:8px;font-style:italic;"></div>
+      <button class="save-btn" id="close-week-btn" onclick="closeWeek()" style="background:var(--ugly-dim);border-color:var(--ugly-lt);color:var(--ugly-lt);">Close Week & Lock Scores</button>
+      <div style="font-size:.52rem;color:var(--text-dim);margin-top:5px;line-height:1.5;">Locks this week's XP data for the Core Stats Dashboard. Sunday XP routes to next week automatically after closing.</div>
+    </div>
+    <div class="setup-sec">
       <div class="setup-ttl">Data Management</div>
       <button class="danger-btn" id="archive-btn">Archive Today &amp; Reset Day</button>
       <button class="danger-btn" id="nuke-btn" style="margin-top:5px;border-color:#3A1818;color:#7A4040">Reset ALL Data (Irreversible)</button>
@@ -882,6 +888,93 @@ const FB_CFG = {
 };
 const USER_DOC  = 'alrpg/sovereign';
 const MILESTONES = [100, 300, 750];
+
+// ── WEEK HELPERS ──────────────────────────────────────
+function weekKey(date) {
+  const d = date ? new Date(date) : new Date();
+  d.setHours(0,0,0,0);
+  // Week starts Monday
+  const day = d.getDay();
+  const diff = d.getDate() - day + (day === 0 ? -6 : 1);
+  const mon = new Date(d); mon.setDate(diff);
+  const year = mon.getFullYear();
+  const startOfYear = new Date(year, 0, 1);
+  const weekNum = Math.ceil(((mon - startOfYear) / 86400000 + startOfYear.getDay() + 1) / 7);
+  return `${year}-W${String(weekNum).padStart(2,'0')}`;
+}
+
+function weekDocPath(wk) {
+  return `${USER_DOC}/weeks/${wk}`;
+}
+
+function isCurrentWeekLocked() {
+  const wk = weekKey();
+  return lsGet('week_locked_'+wk, false);
+}
+
+function getWeekStart() {
+  const d = new Date();
+  const day = d.getDay();
+  const diff = d.getDate() - day + (day === 0 ? -6 : 1);
+  const mon = new Date(d); mon.setDate(diff);
+  return mon.toISOString().slice(0,10);
+}
+
+function getWeekEnd() {
+  const d = new Date(getWeekStart());
+  d.setDate(d.getDate() + 6);
+  return d.toISOString().slice(0,10);
+}
+
+// Get the active week key — if today is Sunday and current week is locked,
+// Sunday XP goes to next week
+function activeWeekKey() {
+  const wk = weekKey();
+  if (isCurrentWeekLocked()) {
+    const nextMon = new Date(getWeekStart());
+    nextMon.setDate(nextMon.getDate() + 7);
+    return weekKey(nextMon);
+  }
+  return wk;
+}
+
+async function syncWeek(statName, xpAdded, fromQuest) {
+  if (!fbReady || !db) return;
+  const wk = activeWeekKey();
+  const path = weekDocPath(wk);
+  try {
+    const snap = await db.doc(path).get();
+    const existing = snap.exists ? snap.data() : {};
+    const statXPWeek = existing.statXP || {};
+    const questsDone = existing.questsDone || {};
+    statXPWeek[statName] = (statXPWeek[statName]||0) + xpAdded;
+    if (fromQuest) questsDone[statName] = (questsDone[statName]||0) + 1;
+    await db.doc(path).set({
+      statXP: statXPWeek,
+      questsDone,
+      weekStart: getWeekStart(),
+      weekEnd: getWeekEnd(),
+      weekKey: wk,
+      locked: false,
+      updatedAt: new Date().toISOString()
+    }, { merge: true });
+  } catch(e) {
+    console.warn('Week sync error:', e.message);
+  }
+}
+
+async function closeWeek() {
+  if (!confirm('Close this week? Scores will lock and Sunday XP will go to next week.')) return;
+  const wk = weekKey();
+  lsSet('week_locked_'+wk, true);
+  if (fbReady && db) {
+    try {
+      await db.doc(weekDocPath(wk)).set({ locked: true, lockedAt: new Date().toISOString() }, { merge: true });
+      showNotif('WEEK CLOSED', weekKey(), 'Scores locked. Sunday XP → next week.');
+    } catch(e) { console.warn('Close week error:', e.message); }
+  }
+  renderSetup();
+}
 const RANKS = [
   { name:'RAW',      thresh:0,     desc:'Starting position. Build the streak first.',                        unlock:'No unlock — build the foundation.' },
   { name:'AWARE',    thresh:500,   desc:"Pattern established. You've proven you can run the system.",         unlock:'Add 1 bonus daily quest of your choice.' },
@@ -1230,6 +1323,7 @@ function logXP(stat, track, xp, fromQuest=false, action='') {
   const prev=S.statXP[stat];
   S.statXP[stat]+=xp;
   saveEntries(); saveStatXP();
+  syncWeek(stat, xp, fromQuest); // write to weekly doc
   renderEntries(); renderStatus(); updateRecords();
   MILESTONES.forEach((m,i)=>{ if(prev<m&&S.statXP[stat]>=m) setTimeout(()=>showNotif('MILESTONE','Tier '+(i+1)+' — '+m+' XP',stat),200); });
   const cx0=cumXP()-xp, cx1=cumXP();
@@ -1626,6 +1720,13 @@ function renderSetup() {
   document.querySelectorAll('.mode-btn').forEach(b=>{b.classList.toggle('sel',b.dataset.m===S.setup.mode);});
   const pri=S.setup.priorityStats||[];
   const cnt=document.getElementById('pp-count'); if(cnt)cnt.textContent=pri.length;
+  // Week status
+  const wk = weekKey();
+  const locked = isCurrentWeekLocked();
+  const wsEl = document.getElementById('week-status');
+  if (wsEl) wsEl.textContent = `Current week: ${wk} · ${locked ? '🔒 Locked — XP routing to next week' : '🔓 Open — log freely until Sunday close'}`;
+  const cwBtn = document.getElementById('close-week-btn');
+  if (cwBtn) { cwBtn.textContent = locked ? 'Week Already Closed' : 'Close Week & Lock Scores'; cwBtn.disabled = locked; }
   const picker=document.getElementById('pp-picker'); if(!picker)return;
   picker.innerHTML='';
   [{tr:'good',label:'GOOD Track'},{tr:'bad',label:'BAD Track'},{tr:'ugly',label:'UGLY Track'}].forEach(({tr,label})=>{
