@@ -623,8 +623,81 @@ body.fu { animation: flashU .6s ease; }
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: var(--bg); }
 ::-webkit-scrollbar-thumb { background: var(--border-mid); border-radius: 2px; }
+
+/* ── ARC UPLOAD ── */
+.arc-upload-zone{border:2px dashed var(--border3);border-radius:var(--r);padding:24px;text-align:center;cursor:pointer;transition:all .2s;margin-bottom:10px;}
+.arc-upload-zone:hover,.arc-upload-zone.drag{border-color:var(--gold);background:rgba(184,150,46,0.06);}
+.arc-upload-icon{font-size:28px;margin-bottom:8px;}
+.arc-upload-label{font-size:11px;color:var(--text-mid);margin-bottom:4px;}
+.arc-upload-sub{font-size:9px;color:var(--text-dim);}
+.arc-locked-card{background:rgba(184,150,46,0.06);border:1px solid var(--gold-dim);border-radius:var(--r);padding:14px;margin-bottom:10px;}
+.arc-locked-title{font-family:var(--font-h);font-size:16px;font-weight:900;color:var(--gold);margin-bottom:3px;}
+.arc-locked-sub{font-size:9px;color:var(--text-dim);margin-bottom:10px;font-style:italic;}
+.arc-locked-chips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px;}
+.arc-locked-stat{display:inline-block;background:var(--bg3);border:1px solid var(--border-mid);padding:2px 8px;border-radius:2px;margin:2px;font-size:9px;color:var(--text-mid);}
+.arc-locked-stat.focus{border-color:var(--gold);color:var(--gold);}
+.parse-progress{padding:12px;background:var(--bg3);border:1px solid var(--border-mid);border-radius:var(--r);font-size:10px;color:var(--text-mid);text-align:center;margin-bottom:10px;}
+.parse-spinner{display:inline-block;width:12px;height:12px;border:2px solid var(--border-mid);border-top-color:var(--gold);border-radius:50%;animation:spin .8s linear infinite;margin-right:6px;vertical-align:middle;}
+
+/* ── MISSION TAB ── */
+.mission-section{margin-bottom:16px;}
+.mission-section-hdr{font-size:8px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold-dim);padding:6px 0;border-bottom:1px solid var(--border-mid);margin-bottom:10px;}
+.golden-rule{display:flex;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);}
+.golden-rule:last-child{border-bottom:none;}
+.golden-rule-num{font-family:var(--font-h);font-size:13px;font-weight:700;color:var(--gold-dim);min-width:20px;}
+.golden-rule-text{font-size:11px;color:var(--text);line-height:1.6;}
+.ops-item{display:flex;align-items:flex-start;gap:10px;padding:9px 0;border-bottom:1px solid var(--border);}
+.ops-item:last-child{border-bottom:none;}
+.ops-check{width:18px;height:18px;border:1px solid var(--border3);border-radius:2px;flex-shrink:0;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;margin-top:1px;}
+.ops-check.done{background:var(--gold);border-color:var(--gold);}
+.ops-check.done::after{content:'✓';font-size:10px;color:#0E0E0C;font-weight:700;}
+.ops-text{font-size:11px;color:var(--text);line-height:1.5;flex:1;}
+.ops-text.checked-text{color:var(--text-dim);text-decoration:line-through;}
+.ops-ref{font-size:8px;color:var(--gold-dim);margin-top:2px;font-style:italic;}
+.vc-card{background:var(--bg2);border:1px solid var(--border-mid);border-left:3px solid var(--border3);border-radius:var(--r);padding:12px;margin-bottom:8px;}
+.vc-card.on-track{border-left-color:var(--good);}
+.vc-card.off-track{border-left-color:var(--red);}
+.vc-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:8px;}
+.vc-num{font-family:var(--font-h);font-size:11px;font-weight:700;color:var(--gold-dim);flex-shrink:0;}
+.vc-text{font-size:11px;color:var(--text);line-height:1.5;flex:1;}
+.vc-status-row{display:flex;gap:6px;margin-bottom:8px;}
+.vc-status-btn{font-size:8px;font-weight:700;padding:4px 10px;border-radius:2px;border:1px solid var(--border-mid);cursor:pointer;background:transparent;color:var(--dim);font-family:var(--font-b);transition:all .15s;}
+.vc-status-btn.active-on{background:var(--good-l);color:var(--good);border-color:var(--good-b);}
+.vc-status-btn.active-off{background:var(--red-l);color:var(--red);border-color:var(--red-b);}
+.vc-progress-row{display:flex;gap:8px;align-items:center;margin-bottom:8px;}
+.vc-progress-input{width:56px;background:var(--bg3);border:1px solid var(--border-mid);color:var(--text);font-family:var(--font-b);font-size:11px;padding:4px 6px;border-radius:3px;text-align:center;outline:none;}
+.vc-progress-input:focus{border-color:var(--gold-dim);}
+.vc-progress-label{font-size:9px;color:var(--dim);}
+.vc-progress-bar{flex:1;height:4px;background:var(--border3);border-radius:2px;overflow:hidden;}
+.vc-progress-fill{height:100%;border-radius:2px;transition:width .3s;}
+.vc-note{width:100%;background:var(--bg3);border:1px solid var(--border-mid);color:var(--text);font-family:var(--font-b);font-size:11px;padding:7px 10px;border-radius:3px;resize:none;min-height:44px;line-height:1.5;outline:none;}
+.vc-note:focus{border-color:var(--gold-dim);}
+.vc-updated{font-size:8px;color:var(--dim);margin-top:4px;font-style:italic;}
+.sq-card{background:var(--bg2);border:1px solid var(--border-mid);border-radius:var(--r);padding:12px;margin-bottom:8px;}
+.sq-top{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;margin-bottom:8px;}
+.sq-title{font-family:var(--font-h);font-size:12px;font-weight:700;color:var(--text);}
+.sq-badges{display:flex;gap:5px;align-items:center;}
+.sq-deadline{font-size:8px;color:var(--gold-dim);font-weight:700;padding:2px 7px;border:1px solid var(--gold-dim);border-radius:2px;}
+.sq-track{font-size:8px;font-weight:700;letter-spacing:0.5px;padding:2px 7px;border-radius:2px;text-transform:uppercase;}
+.sq-track.good{background:var(--good-l);color:var(--good);border:1px solid var(--good-b);}
+.sq-track.bad{background:var(--bad-l);color:var(--bad);border:1px solid var(--bad-b);}
+.sq-task{font-size:10px;color:var(--text-mid);padding:5px 0;border-bottom:1px solid var(--border);line-height:1.5;}
+.sq-task:last-child{border-bottom:none;}
+.sq-warning{font-size:9px;color:var(--red-lt);font-style:italic;margin-top:6px;padding:6px 8px;background:rgba(196,106,106,0.08);border-radius:2px;line-height:1.5;}
+.arc-week-note{padding:10px 12px;background:rgba(184,150,46,0.08);border:1px solid var(--gold-dim);border-left:3px solid var(--gold);border-radius:var(--r2);margin-bottom:10px;font-size:11px;color:var(--text);line-height:1.6;font-style:italic;}
+.arc-act-badge{display:inline-block;font-size:8px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:3px 10px;border-radius:2px;margin-bottom:8px;}
+.act-1{background:rgba(74,140,92,0.15);color:var(--good);border:1px solid var(--good-b);}
+.act-2{background:rgba(184,150,46,0.15);color:var(--gold);border:1px solid var(--gold-dim);}
+.act-3{background:rgba(196,74,42,0.15);color:#E86A4A;border:1px solid rgba(196,74,42,0.3);}
+.act-t{background:rgba(122,74,156,0.15);color:var(--ugly-lt);border:1px solid var(--ugly-b);}
+.mantra-card{background:rgba(184,150,46,0.06);border:1px solid var(--gold-dim);border-left:3px solid var(--gold);border-radius:var(--r);padding:14px;margin-bottom:12px;text-align:center;}
+.mantra-text{font-family:var(--font-h);font-size:15px;font-weight:700;color:var(--gold);line-height:1.4;font-style:italic;}
+.mantra-anchor{font-size:9px;color:var(--text-dim);margin-top:6px;}
+.arc-day-counter{display:flex;gap:8px;margin-bottom:12px;}
+.adc-card{flex:1;background:var(--bg2);border:1px solid var(--border-mid);border-radius:var(--r2);padding:8px;text-align:center;}
+.adc-val{font-family:var(--font-h);font-size:18px;font-weight:900;color:var(--gold);}
+.adc-label{font-size:8px;color:var(--dim);text-transform:uppercase;letter-spacing:0.5px;margin-top:2px;}
 </style>
-</head>
 <body>
 
 <div id="loading-overlay">
@@ -675,11 +748,65 @@ body.fu { animation: flashU .6s ease; }
   <!-- DESKTOP TABS -->
   <div class="tab-nav" id="tab-nav">
     <button class="tab-btn active" data-tab="log">Log</button>
+    <button class="tab-btn" data-tab="mission">Mission</button>
     <button class="tab-btn" data-tab="quests">Quests</button>
     <button class="tab-btn" data-tab="stats">Stats</button>
     <button class="tab-btn" data-tab="history">History</button>
     <button class="tab-btn" data-tab="records">Records</button>
     <button class="tab-btn" data-tab="setup">Setup</button>
+  </div>
+
+  <!-- MISSION -->
+  <div class="tab-panel" id="tab-mission">
+    <div id="mission-no-arc" style="text-align:center;padding:40px 20px;">
+      <div style="font-size:28px;margin-bottom:12px;">⚔</div>
+      <div style="font-family:var(--font-h);font-size:14px;color:var(--gold);margin-bottom:6px;">No Arc Loaded</div>
+      <div style="font-size:10px;color:var(--text-dim);">Upload your arc PDF in Setup to activate the Mission tab.</div>
+    </div>
+    <div id="mission-content" style="display:none;">
+      <!-- Mantra + day counter -->
+      <div class="mantra-card" id="m-mantra-card">
+        <div class="mantra-text" id="m-mantra">—</div>
+        <div class="mantra-anchor" id="m-anchor">—</div>
+      </div>
+      <div class="arc-day-counter">
+        <div class="adc-card"><div class="adc-val" id="m-day">—</div><div class="adc-label">Day</div></div>
+        <div class="adc-card"><div class="adc-val" id="m-week">—</div><div class="adc-label">Week</div></div>
+        <div class="adc-card"><div class="adc-val" id="m-days-left">—</div><div class="adc-label">Days Left</div></div>
+        <div class="adc-card"><div class="adc-val" id="m-act">—</div><div class="adc-label">Act</div></div>
+      </div>
+      <!-- Week note from deployment calendar -->
+      <div class="arc-week-note" id="m-week-note" style="display:none;"></div>
+
+      <!-- Golden Rules -->
+      <div class="mission-section">
+        <div class="mission-section-hdr">Golden Rules — Read Before Everything</div>
+        <div id="m-golden-rules"></div>
+      </div>
+
+      <!-- Daily Operations -->
+      <div class="mission-section">
+        <div class="mission-section-hdr">☀ Morning Operations</div>
+        <div id="m-ops-morning"></div>
+      </div>
+      <div class="mission-section">
+        <div class="mission-section-hdr">🌙 Evening Operations</div>
+        <div id="m-ops-evening"></div>
+      </div>
+
+      <!-- Victory Conditions -->
+      <div class="mission-section">
+        <div class="mission-section-hdr">Victory Conditions — All 5 to Win</div>
+        <div id="m-vcs"></div>
+        <button class="save-btn" onclick="saveVCProgress()" style="margin-top:8px;">Save VC Progress</button>
+      </div>
+
+      <!-- Side Quests -->
+      <div class="mission-section" id="m-sq-section">
+        <div class="mission-section-hdr">Side Quests</div>
+        <div id="m-side-quests"></div>
+      </div>
+    </div>
   </div>
 
   <!-- LOG -->
@@ -809,28 +936,42 @@ body.fu { animation: flashU .6s ease; }
 
   <!-- SETUP -->
   <div class="tab-panel" id="tab-setup">
+
+    <!-- ARC UPLOAD -->
     <div class="setup-sec">
       <div class="setup-ttl">Arc Configuration</div>
-      <div class="setup-field"><label class="setup-lbl">Arc Name</label><input type="text" class="setup-inp" id="inp-arc" placeholder="Arc I — The Foundation" maxlength="60"></div>
-      <div class="setup-field">
-        <label class="setup-lbl">Current Mode</label>
-        <div class="mode-grid">
-          <button class="mode-btn" data-m="GRIND">GRIND</button>
-          <button class="mode-btn" data-m="GHOST">GHOST</button>
-          <button class="mode-btn" data-m="FLOW">FLOW</button>
-          <button class="mode-btn" data-m="SIEGE">SIEGE</button>
+      <div id="arc-upload-state">
+        <!-- No arc loaded -->
+        <div id="arc-upload-empty">
+          <div class="arc-upload-zone" id="arc-drop-zone" onclick="document.getElementById('arc-pdf-input').click()" ondragover="onDragOver(event)" ondragleave="onDragLeave(event)" ondrop="onDrop(event)">
+            <div class="arc-upload-icon">📄</div>
+            <div class="arc-upload-label">Upload Arc Generator PDF</div>
+            <div class="arc-upload-sub">Tap to browse · or drag and drop</div>
+          </div>
+          <input type="file" id="arc-pdf-input" accept=".pdf" style="display:none;" onchange="handleArcPDF(this.files[0])">
+        </div>
+        <!-- Parsing in progress -->
+        <div id="arc-parse-progress" style="display:none;">
+          <div class="parse-progress"><span class="parse-spinner"></span><span id="parse-status-text">Parsing arc PDF…</span></div>
+        </div>
+        <!-- Arc loaded -->
+        <div id="arc-loaded-state" style="display:none;">
+          <div class="arc-locked-card">
+            <div class="arc-locked-title" id="al-name">—</div>
+            <div class="arc-locked-sub" id="al-dates">—</div>
+            <div class="arc-locked-chips" id="al-chips"></div>
+            <div style="font-size:9px;color:var(--dim);margin-bottom:6px;text-transform:uppercase;letter-spacing:1px;">Focus Stats</div>
+            <div id="al-focus-stats"></div>
+          </div>
+          <div style="display:flex;gap:8px;">
+            <button class="danger-btn" onclick="removeArc()" style="flex:1;">Remove Arc & Upload New</button>
+          </div>
+          <div style="font-size:9px;color:var(--dim);margin-top:6px;font-style:italic;text-align:center;">Arc locks until you remove it. Upload new arc PDF at transition.</div>
         </div>
       </div>
-      <button class="save-btn" id="save-arc-btn">Save Arc Config</button>
-      <div class="save-ok" id="arc-ok">Arc configuration saved.</div>
     </div>
-    <div class="setup-sec">
-      <div class="setup-ttl">Priority Stats — This Arc</div>
-      <div class="pp-counter">Selected: <span id="pp-count">0</span> / 7</div>
-      <div id="pp-picker"></div>
-      <button class="save-btn" id="save-pri-btn">Save Priorities</button>
-      <div class="save-ok" id="pri-ok">Priority stats saved.</div>
-    </div>
+
+    <!-- JOURNAL -->
     <div class="setup-sec">
       <div class="setup-ttl">Arc Journal</div>
       <div class="setup-field"><label class="setup-lbl">Objectives</label><textarea class="j-inp" id="j-obj" maxlength="600" placeholder="What are you trying to achieve this arc?"></textarea></div>
@@ -840,23 +981,31 @@ body.fu { animation: flashU .6s ease; }
       <button class="save-btn" id="save-j-btn">Save Journal</button>
       <div class="save-ok" id="j-ok">Journal saved.</div>
     </div>
+
+    <!-- WEEK MANAGEMENT -->
     <div class="setup-sec">
       <div class="setup-ttl">Week Management</div>
       <div id="week-status" style="font-size:.58rem;color:var(--text-dim);margin-bottom:8px;font-style:italic;"></div>
       <button class="save-btn" id="close-week-btn" onclick="closeWeek()" style="background:var(--ugly-dim);border-color:var(--ugly-lt);color:var(--ugly-lt);">Close Week & Lock Scores</button>
       <div style="font-size:.52rem;color:var(--text-dim);margin-top:5px;line-height:1.5;">Locks this week's XP data for the Core Stats Dashboard. Sunday XP routes to next week automatically after closing.</div>
     </div>
+
+    <!-- DATA MANAGEMENT -->
     <div class="setup-sec">
       <div class="setup-ttl">Data Management</div>
+      <button class="save-btn" id="diagnose-btn" onclick="diagnoseAndRecover()" style="background:var(--good-dim);border-color:var(--good);color:var(--good);margin-bottom:5px;">↻ Diagnose & Recover History</button>
+      <div id="diagnose-output" style="display:none;margin-top:8px;padding:10px 12px;background:var(--bg3);border:1px solid var(--border-mid);border-radius:var(--r);font-size:.58rem;color:var(--text-mid);line-height:1.8;max-height:200px;overflow-y:auto;"></div>
       <button class="danger-btn" id="archive-btn">Archive Today &amp; Reset Day</button>
       <button class="danger-btn" id="nuke-btn" style="margin-top:5px;border-color:#3A1818;color:#7A4040">Reset ALL Data (Irreversible)</button>
     </div>
+
   </div>
 
 </div><!-- /app -->
 
 <nav class="bottom-nav">
   <button class="bnav-btn active" data-tab="log"><span class="bi">✍</span>Log</button>
+  <button class="bnav-btn" data-tab="mission"><span class="bi">⚔</span>Mission</button>
   <button class="bnav-btn" data-tab="quests"><span class="bi">☑</span>Quests</button>
   <button class="bnav-btn" data-tab="stats"><span class="bi">📊</span>Stats</button>
   <button class="bnav-btn" data-tab="history"><span class="bi">📅</span>History</button>
@@ -1216,16 +1365,18 @@ let searchTimer=null;
 // ═══════════════════════════════════════════════════════
 function renderHeader() {
   const el = id => document.getElementById(id);
-  el('hdr-arc').textContent = 'ARC: ' + (S.setup.arcName||'Unconfigured');
+  const displayArcName = arcData?.arcName || S.setup.arcName || 'Unconfigured';
+  el('hdr-arc').textContent = 'ARC: ' + displayArcName;
   const mb = el('hdr-mode');
-  mb.textContent = (S.setup.mode||'—')+' MODE';
-  mb.className = 'mode-badge '+(S.setup.mode||'');
+  const displayMode = arcData?.mode || S.setup.mode || '—';
+  mb.textContent = displayMode+' MODE';
+  mb.className = 'mode-badge '+(displayMode||'');
   const cx = cumXP();
   el('hdr-rank').textContent = '◆ '+curRank(cx).name;
   const d = new Date();
   el('hdr-date').textContent = d.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'}).toUpperCase();
   el('hdr-streak').textContent = '🔥 '+S.streak.current+' DAY'+(S.streak.current!==1?'S':'');
-  el('briefing-txt').textContent = BRIEFINGS[S.setup.mode]||'Configure your Arc Mode in Setup.';
+  el('briefing-txt').textContent = BRIEFINGS[displayMode]||'Upload your arc PDF in Setup to activate mission briefing.';
 }
 
 // ═══════════════════════════════════════════════════════
@@ -1262,11 +1413,22 @@ function renderChips() {
   const wrap=document.getElementById('chips-wrap');
   if(!wrap) return;
   if(!selTrack) { wrap.innerHTML='<div class="chips-placeholder">Select a track above</div>'; return; }
+  const focusStats = arcData?.focusStats?.map(f=>f.name) || S.setup.priorityStats || [];
   const div=document.createElement('div'); div.className='chips-grid';
-  STATS[selTrack].forEach(s => {
+  // Sort focus stats to top
+  const trackStats = [...STATS[selTrack]].sort((a,b) => {
+    const aF = focusStats.includes(a), bF = focusStats.includes(b);
+    if (aF && !bF) return -1;
+    if (!aF && bF) return 1;
+    return 0;
+  });
+  trackStats.forEach(s => {
     const b=document.createElement('button');
+    const isFocus = focusStats.includes(s);
     b.className='s-chip'+(selStat===s?' sel-'+selTrack:'');
-    b.textContent=s; b.dataset.stat=s; b.type='button';
+    b.textContent=(isFocus?'★ ':'')+s;
+    if (isFocus) b.style.cssText='border-color:var(--gold-dim);';
+    b.dataset.stat=s; b.type='button';
     div.appendChild(b);
   });
   wrap.innerHTML=''; wrap.appendChild(div);
@@ -1588,6 +1750,18 @@ function populateStatDrop() {
 function renderHistory() {
   renderWeekly(); populateStatDrop();
   const list=document.getElementById('hist-list'); if(!list)return;
+
+  // Always include today as live preview if there are entries
+  const today = todayKey();
+  if (S.entries.length && !S.history[today]) {
+    const t=totals(), qd=questsDone();
+    S.history[today]={ xp:t.total, trackXP:{good:t.good,bad:t.bad,ugly:t.ugly}, questsDone:qd, grade:grade(t.total,qd,t), isLive:true };
+  } else if (S.entries.length && S.history[today]) {
+    // Update live preview with latest
+    const t=totals(), qd=questsDone();
+    S.history[today]={ xp:t.total, trackXP:{good:t.good,bad:t.bad,ugly:t.ugly}, questsDone:qd, grade:grade(t.total,qd,t), isLive:true };
+  }
+
   const dates=Object.keys(S.history||{}).sort().reverse();
   const filtered=dates.filter(ds=>{
     const h=S.history[ds];
@@ -1600,8 +1774,9 @@ function renderHistory() {
   filtered.forEach(ds=>{
     const h=S.history[ds];
     const gc='grade-'+(h.grade==='—'?'X':h.grade);
+    const isLive = h.isLive;
     const div=document.createElement('div'); div.className='hi';
-    div.innerHTML=`<div class="hi-r1"><div class="hi-date">${fmtDate(ds)}</div><div class="hi-xp">${h.xp} XP</div><div class="hi-grade ${gc}">${h.grade}</div></div><div class="hi-r2"><span><span class="tl" style="color:var(--good)">G </span>${h.trackXP?.good||0}</span><span><span class="tl" style="color:var(--bad)">B </span>${h.trackXP?.bad||0}</span><span><span class="tl" style="color:var(--ugly-lt)">U </span>${h.trackXP?.ugly||0}</span><span class="hi-q">${h.questsDone||0}/16 quests</span></div>`;
+    div.innerHTML=`<div class="hi-r1"><div class="hi-date">${fmtDate(ds)}${isLive?' <span style="font-size:.42rem;background:var(--good-fade);color:var(--good);border:1px solid var(--good-dim);padding:1px 5px;border-radius:2px;vertical-align:middle;">LIVE</span>':''}</div><div class="hi-xp">${h.xp} XP</div><div class="hi-grade ${gc}">${h.grade}</div></div><div class="hi-r2"><span><span class="tl" style="color:var(--good)">G </span>${h.trackXP?.good||0}</span><span><span class="tl" style="color:var(--bad)">B </span>${h.trackXP?.bad||0}</span><span><span class="tl" style="color:var(--ugly-lt)">U </span>${h.trackXP?.ugly||0}</span><span class="hi-q">${h.questsDone||0}/16 quests</span></div>`;
     list.appendChild(div);
   });
 }
@@ -1713,13 +1888,412 @@ function nextNotif() {
 }
 
 // ═══════════════════════════════════════════════════════
-// SETUP
+// ARC DATA — stored separately from S
+// ═══════════════════════════════════════════════════════
+const ARC_DOC = 'alrpg/arc/current';
+const ARC_DATA_KEY = 'sovereign_arc_data';
+const ARC_OPS_KEY = 'sovereign_arc_ops';
+const ARC_VC_KEY = 'sovereign_arc_vc';
+
+let arcData = JSON.parse(localStorage.getItem(ARC_DATA_KEY)||'null');
+let arcOps = JSON.parse(localStorage.getItem(ARC_OPS_KEY)||'{}');   // daily ops check state
+let arcVC = JSON.parse(localStorage.getItem(ARC_VC_KEY)||'{}');      // VC progress + notes
+
+// ── DRAG & DROP ──────────────────────────────────────
+function onDragOver(e) { e.preventDefault(); document.getElementById('arc-drop-zone').classList.add('drag'); }
+function onDragLeave(e) { document.getElementById('arc-drop-zone').classList.remove('drag'); }
+function onDrop(e) { e.preventDefault(); document.getElementById('arc-drop-zone').classList.remove('drag'); const f=e.dataTransfer.files[0]; if(f&&f.type==='application/pdf') handleArcPDF(f); }
+
+// ── PDF PARSE ─────────────────────────────────────────
+async function handleArcPDF(file) {
+  if (!file) return;
+  const key = localStorage.getItem('antihero_api_key');
+  if (!key) { showNotif('API KEY MISSING','Set antihero_api_key in localStorage','Required for PDF parsing'); return; }
+
+  document.getElementById('arc-upload-empty').style.display = 'none';
+  document.getElementById('arc-parse-progress').style.display = 'block';
+  document.getElementById('parse-status-text').textContent = 'Reading PDF…';
+
+  try {
+    // Convert PDF to base64
+    const base64 = await new Promise((res,rej)=>{
+      const r = new FileReader();
+      r.onload = () => res(r.result.split(',')[1]);
+      r.onerror = rej;
+      r.readAsDataURL(file);
+    });
+
+    document.getElementById('parse-status-text').textContent = 'Parsing with Claude…';
+
+    const prompt = `You are parsing an Antihero Life RPG Arc Generator PDF. Extract ALL of the following and return ONLY valid JSON, no markdown, no backticks.
+
+Required fields:
+{
+  "arcName": "full arc name",
+  "arcNumber": "1",
+  "year": "Year 1",
+  "startDate": "YYYY-MM-DD",
+  "endDate": "YYYY-MM-DD",
+  "duration": "88 days",
+  "mode": "SIEGE",
+  "dominantTrack": "GOOD",
+  "intensity": "5/10",
+  "mantra": "I don't drift anymore — I hold ground.",
+  "anchorBelief": "Changing the belief: I can't build discipline",
+  "arcMission": "one sentence mission",
+  "focusStats": [
+    {"name":"Discipline","track":"GOOD","fromScore":5,"toScore":7,"note":"proving I can build the habit"},
+    {"name":"Physical Health","track":"GOOD","fromScore":4,"toScore":6,"note":"establishing workout routine"}
+  ],
+  "goldenRules": [
+    {"number":1,"text":"Accountability: Check in every morning — no drifting past day 3 without a mark."}
+  ],
+  "morningOps": [
+    {"text":"Budget check: did I track yesterday's spending?","ref":"sheet"},
+    {"text":"Workout: is today's session planned and time-blocked?"}
+  ],
+  "eveningOps": [
+    {"text":"Check-in: did I log today's discipline wins?","ref":"sheet"},
+    {"text":"Alcohol: zero today — streak intact?"}
+  ],
+  "victoryConditions": [
+    {"number":1,"text":"Budget established and followed · 60+ days of tracked spending, zero alcohol purchases","metric":"days","target":60,"unit":"days tracked"}
+  ],
+  "sideQuests": [
+    {"title":"Re-education","track":"good","deadline":"Day 60","tasks":["Finish one complete book by Day 30","Read every day for 15+ minutes minimum"],"warning":"Skipping reading 3+ days in a row means motivation is fading"}
+  ],
+  "deploymentCalendar": [
+    {"week":"Wk 1 (1–7)","act":1,"note":"Launch budget tracking, first workout, first book page. Set the check-in streak."},
+    {"week":"Wk 2 (8–14)","act":1,"note":"Streak hits 10+. Workout routine takes shape. Track every dollar."}
+  ]
+}
+
+Parse every field accurately. For dates convert month/day/year text to YYYY-MM-DD format. Extract ALL golden rules, ALL morning ops, ALL evening ops, ALL victory conditions, ALL side quests, and as many deployment calendar weeks as present.`;
+
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': key,
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true'
+      },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-6',
+        max_tokens: 4000,
+        messages: [{
+          role: 'user',
+          content: [
+            { type: 'document', source: { type: 'base64', media_type: 'application/pdf', data: base64 } },
+            { type: 'text', text: prompt }
+          ]
+        }]
+      })
+    });
+
+    if (!response.ok) throw new Error(`API error ${response.status}`);
+    const data = await response.json();
+    const raw = data.content?.find(b=>b.type==='text')?.text||'';
+    const clean = raw.replace(/```json|```/g,'').trim();
+    const s = clean.indexOf('{'), e = clean.lastIndexOf('}');
+    if (s===-1||e===-1) throw new Error('No JSON found in response');
+    arcData = JSON.parse(clean.slice(s,e+1));
+
+    // Save to localStorage and Firebase
+    localStorage.setItem(ARC_DATA_KEY, JSON.stringify(arcData));
+
+    // Update sovereign_arc_context for other apps
+    const arcContext = {
+      name: arcData.arcName,
+      number: arcData.arcNumber,
+      year: arcData.year,
+      start: arcData.startDate,
+      end: arcData.endDate,
+      mode: arcData.mode,
+      track: arcData.dominantTrack,
+      mission: arcData.arcMission,
+      vcs: arcData.victoryConditions?.map(v=>v.text)||[]
+    };
+    localStorage.setItem('sovereign_arc_context', JSON.stringify(arcContext));
+
+    // Write to Firebase
+    if (fbReady && db) {
+      await db.doc(ARC_DOC).set({ ...arcData, uploadedAt: new Date().toISOString() });
+      // Also update action log setup with arc name and mode
+      S.setup.arcName = arcData.arcName;
+      S.setup.mode = arcData.mode;
+      S.setup.priorityStats = arcData.focusStats?.map(f=>f.name)||[];
+      saveSetup();
+    }
+
+    document.getElementById('arc-parse-progress').style.display = 'none';
+    renderArcLoadedState();
+    renderHeader();
+    switchTab('mission', null);
+    showNotif('ARC LOADED', arcData.arcName, 'Mission tab activated');
+
+  } catch(e) {
+    document.getElementById('arc-parse-progress').style.display = 'none';
+    document.getElementById('arc-upload-empty').style.display = 'block';
+    showNotif('PARSE FAILED', e.message, 'Check API key and try again');
+  }
+}
+
+function renderArcUploadState() {
+  if (arcData) {
+    document.getElementById('arc-upload-empty').style.display = 'none';
+    document.getElementById('arc-parse-progress').style.display = 'none';
+    renderArcLoadedState();
+  } else {
+    document.getElementById('arc-upload-empty').style.display = 'block';
+    document.getElementById('arc-loaded-state').style.display = 'none';
+    document.getElementById('arc-parse-progress').style.display = 'none';
+  }
+}
+
+function renderArcLoadedState() {
+  if (!arcData) return;
+  document.getElementById('arc-loaded-state').style.display = 'block';
+  document.getElementById('arc-upload-empty').style.display = 'none';
+  document.getElementById('al-name').textContent = arcData.arcName||'—';
+  document.getElementById('al-dates').textContent = `${arcData.startDate||''} → ${arcData.endDate||''} · ${arcData.duration||''} · ${arcData.mode||''} Mode`;
+  const chips = document.getElementById('al-chips');
+  chips.innerHTML = '';
+  if (arcData.mode) { const c=document.createElement('span'); c.className=`mode-badge ${arcData.mode}`; c.textContent=arcData.mode+' MODE'; chips.appendChild(c); }
+  if (arcData.dominantTrack) { const c=document.createElement('span'); c.className='mode-badge'; c.style.cssText='background:var(--good-l);color:var(--good);border:1px solid var(--good-b)'; c.textContent=arcData.dominantTrack+' DOMINANT'; chips.appendChild(c); }
+  const fsEl = document.getElementById('al-focus-stats');
+  fsEl.innerHTML = (arcData.focusStats||[]).map(f=>`<span class="arc-locked-stat focus">★ ${f.name}</span>`).join('') || '<span style="font-size:9px;color:var(--dim);">No focus stats parsed</span>';
+}
+
+function removeArc() {
+  if (!confirm('Remove current arc? Mission tab will be cleared until you upload a new arc PDF.')) return;
+  arcData = null;
+  arcOps = {};
+  arcVC = {};
+  localStorage.removeItem(ARC_DATA_KEY);
+  localStorage.removeItem(ARC_OPS_KEY);
+  localStorage.removeItem(ARC_VC_KEY);
+  localStorage.removeItem('sovereign_arc_context');
+  if (fbReady && db) { try { db.doc(ARC_DOC).delete(); } catch(e) {} }
+  renderArcUploadState();
+  renderMissionTab();
+  renderHeader();
+  showNotif('ARC REMOVED','Upload new arc PDF to continue','');
+}
+
+// ── MISSION TAB ───────────────────────────────────────
+function calcArcProgress() {
+  if (!arcData?.startDate) return null;
+  const start = new Date(arcData.startDate+'T00:00:00');
+  const end = arcData.endDate ? new Date(arcData.endDate+'T00:00:00') : null;
+  const today = new Date(); today.setHours(0,0,0,0);
+  const dayNum = Math.floor((today-start)/(1000*60*60*24))+1;
+  const weekNum = Math.ceil(dayNum/7);
+  const daysLeft = end ? Math.floor((end-today)/(1000*60*60*24)) : null;
+  let act = 1, actLabel = 'Act I · Ignition', actClass = 'act-1';
+  if (dayNum > 82) { act=4; actLabel='Transition'; actClass='act-t'; }
+  else if (dayNum > 60) { act=3; actLabel='Act III · Proof'; actClass='act-3'; }
+  else if (dayNum > 30) { act=2; actLabel='Act II · Build'; actClass='act-2'; }
+  return { dayNum, weekNum, daysLeft, act, actLabel, actClass };
+}
+
+function getCurrentWeekNote() {
+  if (!arcData?.deploymentCalendar) return null;
+  const prog = calcArcProgress();
+  if (!prog) return null;
+  const cal = arcData.deploymentCalendar;
+  // Find entry matching current week
+  return cal.find(c => {
+    const match = c.week?.match(/\((\d+)[–-](\d+)\)/);
+    if (!match) return false;
+    const d = prog.dayNum;
+    return d >= parseInt(match[1]) && d <= parseInt(match[2]);
+  });
+}
+
+function renderMissionTab() {
+  const noArc = document.getElementById('mission-no-arc');
+  const content = document.getElementById('mission-content');
+  if (!arcData) { noArc.style.display='block'; content.style.display='none'; return; }
+  noArc.style.display='none'; content.style.display='block';
+
+  // Mantra
+  document.getElementById('m-mantra').textContent = arcData.mantra||'—';
+  document.getElementById('m-anchor').textContent = arcData.anchorBelief||'';
+
+  // Day counter
+  const prog = calcArcProgress();
+  if (prog) {
+    document.getElementById('m-day').textContent = prog.dayNum > 0 ? prog.dayNum : '—';
+    document.getElementById('m-week').textContent = prog.weekNum > 0 ? prog.weekNum : '—';
+    document.getElementById('m-days-left').textContent = prog.daysLeft !== null ? (prog.daysLeft >= 0 ? prog.daysLeft : '0') : '—';
+    document.getElementById('m-act').textContent = prog.act;
+  }
+
+  // Week note
+  const weekNote = getCurrentWeekNote();
+  const wn = document.getElementById('m-week-note');
+  if (weekNote?.note) { wn.textContent = weekNote.note; wn.style.display='block'; }
+  else wn.style.display='none';
+
+  // Golden Rules
+  const gr = document.getElementById('m-golden-rules');
+  gr.innerHTML = (arcData.goldenRules||[]).map(r=>`
+    <div class="golden-rule">
+      <div class="golden-rule-num">${r.number}</div>
+      <div class="golden-rule-text">${esc(r.text)}</div>
+    </div>`).join('') || '<div style="font-size:10px;color:var(--dim);font-style:italic;">No golden rules parsed.</div>';
+
+  // Daily Ops
+  renderOps('morning', arcData.morningOps||[]);
+  renderOps('evening', arcData.eveningOps||[]);
+
+  // Victory Conditions
+  renderVCs();
+
+  // Side Quests
+  const sqEl = document.getElementById('m-side-quests');
+  const sqs = arcData.sideQuests||[];
+  if (!sqs.length) { document.getElementById('m-sq-section').style.display='none'; }
+  else {
+    document.getElementById('m-sq-section').style.display='block';
+    sqEl.innerHTML = sqs.map((sq,i)=>`
+      <div class="sq-card">
+        <div class="sq-top">
+          <div class="sq-title">${esc(sq.title||'Side Quest '+(i+1))}</div>
+          <div class="sq-badges">
+            ${sq.deadline?`<span class="sq-deadline">${esc(sq.deadline)}</span>`:''}
+            ${sq.track?`<span class="sq-track ${sq.track}">${sq.track.toUpperCase()}</span>`:''}
+          </div>
+        </div>
+        ${(sq.tasks||[]).map(t=>`<div class="sq-task">→ ${esc(t)}</div>`).join('')}
+        ${sq.warning?`<div class="sq-warning">⚠ ${esc(sq.warning)}</div>`:''}
+      </div>`).join('');
+  }
+}
+
+function renderOps(session, items) {
+  const today = todayKey();
+  const stateKey = `${session}_${today}`;
+  const checked = arcOps[stateKey]||{};
+  const el = document.getElementById(`m-ops-${session}`);
+  el.innerHTML = items.map((item,i)=>{
+    const done = !!checked[i];
+    return `<div class="ops-item">
+      <div class="ops-check ${done?'done':''}" onclick="toggleOp('${session}',${i},this)"></div>
+      <div>
+        <div class="ops-text ${done?'checked-text':''}">${esc(item.text)}</div>
+        ${item.ref?`<div class="ops-ref">${esc(item.ref)}</div>`:''}
+      </div>
+    </div>`;
+  }).join('') || '<div style="font-size:10px;color:var(--dim);font-style:italic;">No operations parsed.</div>';
+}
+
+function toggleOp(session, idx, el) {
+  const today = todayKey();
+  const stateKey = `${session}_${today}`;
+  if (!arcOps[stateKey]) arcOps[stateKey] = {};
+  arcOps[stateKey][idx] = !arcOps[stateKey][idx];
+  localStorage.setItem(ARC_OPS_KEY, JSON.stringify(arcOps));
+  el.classList.toggle('done');
+  const textEl = el.nextElementSibling?.querySelector('.ops-text');
+  if (textEl) textEl.classList.toggle('checked-text', arcOps[stateKey][idx]);
+}
+
+function renderVCs() {
+  const el = document.getElementById('m-vcs');
+  const vcs = arcData.victoryConditions||[];
+  el.innerHTML = vcs.map((vc,i)=>{
+    const saved = arcVC[i]||{};
+    const status = saved.status||'none';
+    const progress = saved.progress||0;
+    const note = saved.note||'';
+    const target = vc.target||100;
+    const pct = Math.min(Math.round((progress/target)*100),100);
+    const fillColor = status==='on'?'var(--good)':status==='off'?'var(--red)':'var(--gold)';
+    const cardClass = status==='on'?'on-track':status==='off'?'off-track':'';
+    return `<div class="vc-card ${cardClass}" id="vc-card-${i}">
+      <div class="vc-top">
+        <div class="vc-num">VC ${vc.number||i+1}</div>
+        <div class="vc-text">${esc(vc.text)}</div>
+      </div>
+      <div class="vc-status-row">
+        <button class="vc-status-btn ${status==='on'?'active-on':''}" onclick="setVCStatus(${i},'on')">✓ On Track</button>
+        <button class="vc-status-btn ${status==='off'?'active-off':''}" onclick="setVCStatus(${i},'off')">⚠ Off Track</button>
+      </div>
+      ${target?`<div class="vc-progress-row">
+        <input class="vc-progress-input" type="number" min="0" max="${target*2}" value="${progress}" placeholder="0" onchange="setVCProgress(${i},this.value,${target})">
+        <div class="vc-progress-label">/ ${target} ${vc.unit||''}</div>
+        <div class="vc-progress-bar"><div class="vc-progress-fill" id="vc-bar-${i}" style="width:${pct}%;background:${fillColor};"></div></div>
+        <div style="font-size:9px;color:var(--dim);min-width:30px;text-align:right;">${pct}%</div>
+      </div>`:''}
+      <textarea class="vc-note" id="vc-note-${i}" placeholder="Evidence, notes, last update…" rows="2">${esc(note)}</textarea>
+      ${saved.updatedAt?`<div class="vc-updated">Last updated ${new Date(saved.updatedAt).toLocaleDateString('en-US',{month:'short',day:'numeric'})}</div>`:''}
+    </div>`;
+  }).join('') || '<div style="font-size:10px;color:var(--dim);font-style:italic;">No victory conditions parsed.</div>';
+}
+
+function setVCStatus(idx, status) {
+  if (!arcVC[idx]) arcVC[idx] = {};
+  arcVC[idx].status = arcVC[idx].status === status ? 'none' : status;
+  arcVC[idx].updatedAt = new Date().toISOString();
+  localStorage.setItem(ARC_VC_KEY, JSON.stringify(arcVC));
+  renderVCs();
+}
+
+function setVCProgress(idx, val, target) {
+  if (!arcVC[idx]) arcVC[idx] = {};
+  arcVC[idx].progress = Math.max(0, parseFloat(val)||0);
+  arcVC[idx].updatedAt = new Date().toISOString();
+  const pct = Math.min(Math.round((arcVC[idx].progress/target)*100),100);
+  const bar = document.getElementById(`vc-bar-${idx}`);
+  if (bar) bar.style.width = pct+'%';
+  localStorage.setItem(ARC_VC_KEY, JSON.stringify(arcVC));
+}
+
+function saveVCProgress() {
+  const vcs = arcData?.victoryConditions||[];
+  vcs.forEach((_,i)=>{
+    const noteEl = document.getElementById(`vc-note-${i}`);
+    if (noteEl) {
+      if (!arcVC[i]) arcVC[i] = {};
+      arcVC[i].note = noteEl.value.trim();
+      arcVC[i].updatedAt = new Date().toISOString();
+    }
+  });
+  localStorage.setItem(ARC_VC_KEY, JSON.stringify(arcVC));
+  if (fbReady && db) {
+    db.doc('alrpg/arc/vc').set({ vc: arcVC, updatedAt: new Date().toISOString() }, { merge: true });
+  }
+  showNotif('VC SAVED','Progress notes saved','');
+}
+
+// Also pull arcData from Firebase on init if available
+async function loadArcFromFirebase() {
+  if (!fbReady||!db) return;
+  try {
+    const snap = await db.doc(ARC_DOC).get();
+    if (snap.exists && !arcData) {
+      arcData = snap.data();
+      localStorage.setItem(ARC_DATA_KEY, JSON.stringify(arcData));
+      renderArcUploadState();
+      renderMissionTab();
+      renderHeader();
+    }
+    // Load VC progress
+    const vcSnap = await db.doc('alrpg/arc/vc').get();
+    if (vcSnap.exists && vcSnap.data().vc) {
+      arcVC = vcSnap.data().vc;
+      localStorage.setItem(ARC_VC_KEY, JSON.stringify(arcVC));
+    }
+  } catch(e) { console.warn('Arc load error:', e.message); }
+}
+
+// ═══════════════════════════════════════════════════════
+// UPDATED renderSetup — no arc name/mode inputs
 // ═══════════════════════════════════════════════════════
 function renderSetup() {
-  const arc=document.getElementById('inp-arc'); if(arc)arc.value=S.setup.arcName||'';
-  document.querySelectorAll('.mode-btn').forEach(b=>{b.classList.toggle('sel',b.dataset.m===S.setup.mode);});
-  const pri=S.setup.priorityStats||[];
-  const cnt=document.getElementById('pp-count'); if(cnt)cnt.textContent=pri.length;
+  renderArcUploadState();
   // Week status
   const wk = weekKey();
   const locked = isCurrentWeekLocked();
@@ -1727,22 +2301,7 @@ function renderSetup() {
   if (wsEl) wsEl.textContent = `Current week: ${wk} · ${locked ? '🔒 Locked — XP routing to next week' : '🔓 Open — log freely until Sunday close'}`;
   const cwBtn = document.getElementById('close-week-btn');
   if (cwBtn) { cwBtn.textContent = locked ? 'Week Already Closed' : 'Close Week & Lock Scores'; cwBtn.disabled = locked; }
-  const picker=document.getElementById('pp-picker'); if(!picker)return;
-  picker.innerHTML='';
-  [{tr:'good',label:'GOOD Track'},{tr:'bad',label:'BAD Track'},{tr:'ugly',label:'UGLY Track'}].forEach(({tr,label})=>{
-    const grp=document.createElement('div'); grp.className='pp-grp';
-    grp.innerHTML=`<div class="pp-grp-lbl ${tr}">${label}</div><div class="pp-tags" id="pp-${tr}"></div>`;
-    picker.appendChild(grp);
-    const tags=grp.querySelector('.pp-tags');
-    STATS[tr].forEach(s=>{
-      const sel=pri.includes(s);
-      const locked=pri.length>=7&&!sel;
-      const b=document.createElement('button');
-      b.type='button'; b.className='pp-tag'+(sel?' sel '+tr:'')+(locked?' locked':'');
-      b.textContent=s; b.disabled=locked; b.dataset.ppstat=s; b.dataset.pptrack=tr;
-      tags.appendChild(b);
-    });
-  });
+  // Journal
   const j=S.setup.journal||{};
   ['obj','foc','avo','nts'].forEach((k,i)=>{
     const keys=['objectives','focus','avoid','notes'];
@@ -1784,15 +2343,16 @@ function scheduleMidnight() {
 // ═══════════════════════════════════════════════════════
 // TAB SWITCHING
 // ═══════════════════════════════════════════════════════
-function switchTab(tab) {
+function switchTab(tab, btn) {
   document.querySelectorAll('.tab-btn,.bnav-btn').forEach(b=>b.classList.toggle('active',b.dataset.tab===tab));
   document.querySelectorAll('.tab-panel').forEach(p=>p.classList.toggle('active',p.id==='tab-'+tab));
-  if(tab==='stats')  renderStatBars();
-  if(tab==='history')renderHistory();
-  if(tab==='records')renderRecords();
-  if(tab==='setup')  renderSetup();
-  if(tab==='quests') renderQuests();
-  if(tab==='log')    renderRecent();
+  if(tab==='stats')   renderStatBars();
+  if(tab==='history') renderHistory();
+  if(tab==='records') renderRecords();
+  if(tab==='setup')   renderSetup();
+  if(tab==='quests')  renderQuests();
+  if(tab==='log')     renderRecent();
+  if(tab==='mission') renderMissionTab();
 }
 
 // ═══════════════════════════════════════════════════════
@@ -1881,6 +2441,87 @@ function exportHistoryPDF() {
   setTimeout(() => { win.print(); }, 400);
 }
 
+// ═══════════════════════════════════════════════════════
+// DIAGNOSE & RECOVER HISTORY
+// ═══════════════════════════════════════════════════════
+async function diagnoseAndRecover() {
+  const btn = document.getElementById('diagnose-btn');
+  const out = document.getElementById('diagnose-output');
+  if (!out) return;
+
+  btn.textContent = '↻ Scanning Firebase…';
+  btn.disabled = true;
+  out.style.display = 'block';
+  out.innerHTML = '';
+
+  const log = (msg) => { out.innerHTML += msg + '<br>'; out.scrollTop = out.scrollHeight; };
+
+  if (!fbReady || !db) {
+    log('⚠ Firebase not connected. Open from GitHub Pages URL.');
+    btn.textContent = '↻ Diagnose & Recover History';
+    btn.disabled = false;
+    return;
+  }
+
+  const dates = [];
+  for (let i = 0; i <= 90; i++) {
+    const d = new Date(); d.setDate(d.getDate() - i);
+    dates.push(d.toISOString().slice(0, 10));
+  }
+
+  log(`Scanning ${dates.length} days in Firebase…`);
+
+  let found = 0, recovered = 0, alreadyArchived = 0, empty = 0;
+
+  for (const ds of dates) {
+    try {
+      const snap = await db.doc(`${USER_DOC}/days/${ds}`).get();
+      if (!snap.exists) { empty++; continue; }
+      const d = snap.data();
+      const entries = Array.isArray(d.entries) ? d.entries : [];
+      const quests = d.quests || {};
+      if (!entries.length && !Object.values(quests).some(Boolean)) { empty++; continue; }
+      found++;
+      log(`📅 Found: ${ds} — ${entries.length} entries`);
+      lsSet('entries_' + ds, entries);
+      lsSet('quests_' + ds, quests);
+      if (S.history[ds]) { alreadyArchived++; continue; }
+      const g = entries.filter(e=>e.track==='good').reduce((a,e)=>a+e.xp,0);
+      const b = entries.filter(e=>e.track==='bad').reduce((a,e)=>a+e.xp,0);
+      const u = entries.filter(e=>e.track==='ugly').reduce((a,e)=>a+e.xp,0);
+      const tot = g+b+u;
+      const qd = Object.values(quests).filter(Boolean).length;
+      S.history[ds] = { xp:tot, trackXP:{good:g,bad:b,ugly:u}, questsDone:qd, grade:grade(tot,qd,{good:g,bad:b,ugly:u}) };
+      recovered++;
+      log(`✓ Archived ${ds} — ${tot} XP · Grade ${S.history[ds].grade}`);
+    } catch(e) { log(`⚠ Error on ${ds}: ${e.message}`); }
+  }
+
+  // Add today as live preview
+  const today = todayKey();
+  if (S.entries.length) {
+    const t=totals(), qd=questsDone();
+    S.history[today] = { xp:t.total, trackXP:{good:t.good,bad:t.bad,ugly:t.ugly}, questsDone:qd, grade:grade(t.total,qd,t), isLive:true };
+    log(`📍 Today (${today}) — ${t.total} XP (live)`);
+    recovered++;
+  }
+
+  if (recovered > 0) { saveHistory(); renderHistory(); renderRecords(); }
+
+  log('');
+  log(`─────────────────`);
+  log(`Days with data: ${found}`);
+  log(`Newly recovered: ${recovered}`);
+  log(`Already archived: ${alreadyArchived}`);
+  log(`Empty days skipped: ${empty}`);
+  log(found > 0
+    ? `✓ Done. Check the History tab.`
+    : `⚠ No data found in Firebase. Data may only exist in localStorage on the device where it was originally logged.`);
+
+  btn.textContent = '↻ Diagnose & Recover History';
+  btn.disabled = false;
+}
+
 function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 function fmtDate(ds){ try{ return new Date(ds+'T12:00:00').toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric',year:'numeric'}).toUpperCase(); }catch(e){return ds;} }
 function flashOk(id){ const el=document.getElementById(id);if(!el)return;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),2200); }
@@ -1940,9 +2581,11 @@ async function init() {
   checkRollover();
   scheduleMidnight();
   renderAll();
+  renderMissionTab();
   document.getElementById('loading-overlay').style.display = 'none';
   subscribeMain();
   subscribeToday();
+  await loadArcFromFirebase();
 }
 
 // ═══════════════════════════════════════════════════════
@@ -2053,33 +2696,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.querySelectorAll('.tab-btn, .bnav-btn').forEach(b => {
     b.addEventListener('click', () => switchTab(b.dataset.tab));
-  });
-
-  document.querySelectorAll('.mode-btn').forEach(b => {
-    b.addEventListener('click', () => {
-      S.setup.mode = b.dataset.m;
-      document.querySelectorAll('.mode-btn').forEach(x=>x.classList.remove('sel'));
-      b.classList.add('sel');
-    });
-  });
-
-  document.getElementById('save-arc-btn').addEventListener('click', () => {
-    S.setup.arcName = document.getElementById('inp-arc').value.trim();
-    saveSetup(); renderHeader(); flashOk('arc-ok');
-  });
-
-  document.getElementById('pp-picker').addEventListener('click', e => {
-    const tag = e.target.closest('.pp-tag');
-    if(!tag||tag.disabled) return;
-    const s = tag.dataset.ppstat;
-    const cur = S.setup.priorityStats||[];
-    if(cur.includes(s)) S.setup.priorityStats=cur.filter(x=>x!==s);
-    else { if(cur.length>=7)return; S.setup.priorityStats=[...cur,s]; }
-    renderSetup();
-  });
-
-  document.getElementById('save-pri-btn').addEventListener('click', () => {
-    saveSetup(); renderStatBars(); flashOk('pri-ok');
   });
 
   document.getElementById('save-j-btn').addEventListener('click', () => {
