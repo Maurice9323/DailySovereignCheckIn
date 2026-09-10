@@ -971,6 +971,18 @@ body.fu { animation: flashU .6s ease; }
       </div>
     </div>
 
+    <!-- API KEY -->
+    <div class="setup-sec">
+      <div class="setup-ttl">API Key</div>
+      <div class="setup-field">
+        <label class="setup-lbl">Anthropic API Key</label>
+        <input type="password" class="setup-inp" id="inp-api-key" placeholder="sk-ant-…" maxlength="200" autocomplete="off">
+        <div style="font-size:.52rem;color:var(--text-dim);margin-top:4px;line-height:1.5;">Stored locally in your browser. Required for arc PDF parsing and book recommendations. Never sent anywhere except Anthropic's API.</div>
+      </div>
+      <button class="save-btn" id="save-api-btn">Save API Key</button>
+      <div class="save-ok" id="api-ok">API key saved.</div>
+    </div>
+
     <!-- JOURNAL -->
     <div class="setup-sec">
       <div class="setup-ttl">Arc Journal</div>
@@ -2294,6 +2306,13 @@ async function loadArcFromFirebase() {
 // ═══════════════════════════════════════════════════════
 function renderSetup() {
   renderArcUploadState();
+  // API key
+  const keyEl = document.getElementById('inp-api-key');
+  if (keyEl) {
+    const stored = localStorage.getItem('antihero_api_key')||'';
+    keyEl.value = stored ? '••••••••••••••••' : '';
+    keyEl.dataset.hasKey = stored ? 'true' : 'false';
+  }
   // Week status
   const wk = weekKey();
   const locked = isCurrentWeekLocked();
@@ -2696,6 +2715,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.querySelectorAll('.tab-btn, .bnav-btn').forEach(b => {
     b.addEventListener('click', () => switchTab(b.dataset.tab));
+  });
+
+  // API key
+  const apiKeyEl = document.getElementById('inp-api-key');
+  if (apiKeyEl) {
+    apiKeyEl.addEventListener('focus', function() {
+      if (this.dataset.hasKey === 'true') this.value = '';
+    });
+  }
+  document.getElementById('save-api-btn').addEventListener('click', () => {
+    const val = document.getElementById('inp-api-key').value.trim();
+    if (!val || val === '••••••••••••••••') { showNotif('NO KEY','Paste your sk-ant- key',''); return; }
+    if (!val.startsWith('sk-ant-')) { showNotif('INVALID KEY','Key must start with sk-ant-',''); return; }
+    localStorage.setItem('antihero_api_key', val);
+    document.getElementById('inp-api-key').value = '••••••••••••••••';
+    document.getElementById('inp-api-key').dataset.hasKey = 'true';
+    flashOk('api-ok');
   });
 
   document.getElementById('save-j-btn').addEventListener('click', () => {
