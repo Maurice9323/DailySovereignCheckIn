@@ -1902,7 +1902,7 @@ function nextNotif() {
 // ═══════════════════════════════════════════════════════
 // ARC DATA — stored separately from S
 // ═══════════════════════════════════════════════════════
-const ARC_DOC = 'alrpg/arc/current';
+const ARC_DOC = 'alrpg/sovereign_arc';
 const ARC_DATA_KEY = 'sovereign_arc_data';
 const ARC_OPS_KEY = 'sovereign_arc_ops';
 const ARC_VC_KEY = 'sovereign_arc_vc';
@@ -2275,7 +2275,7 @@ function saveVCProgress() {
   });
   localStorage.setItem(ARC_VC_KEY, JSON.stringify(arcVC));
   if (fbReady && db) {
-    db.doc('alrpg/arc/vc').set({ vc: arcVC, updatedAt: new Date().toISOString() }, { merge: true });
+    db.doc('alrpg/sovereign_arc_vc').set({ vc: arcVC, updatedAt: new Date().toISOString() }, { merge: true });
   }
   showNotif('VC SAVED','Progress notes saved','');
 }
@@ -2293,7 +2293,7 @@ async function loadArcFromFirebase() {
       renderHeader();
     }
     // Load VC progress
-    const vcSnap = await db.doc('alrpg/arc/vc').get();
+    const vcSnap = await db.doc('alrpg/sovereign_arc_vc').get();
     if (vcSnap.exists && vcSnap.data().vc) {
       arcVC = vcSnap.data().vc;
       localStorage.setItem(ARC_VC_KEY, JSON.stringify(arcVC));
