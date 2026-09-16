@@ -1763,17 +1763,6 @@ function renderHistory() {
   renderWeekly(); populateStatDrop();
   const list=document.getElementById('hist-list'); if(!list)return;
 
-  // Always include today as live preview if there are entries
-  const today = todayKey();
-  if (S.entries.length && !S.history[today]) {
-    const t=totals(), qd=questsDone();
-    S.history[today]={ xp:t.total, trackXP:{good:t.good,bad:t.bad,ugly:t.ugly}, questsDone:qd, grade:grade(t.total,qd,t), isLive:true };
-  } else if (S.entries.length && S.history[today]) {
-    // Update live preview with latest
-    const t=totals(), qd=questsDone();
-    S.history[today]={ xp:t.total, trackXP:{good:t.good,bad:t.bad,ugly:t.ugly}, questsDone:qd, grade:grade(t.total,qd,t), isLive:true };
-  }
-
   const dates=Object.keys(S.history||{}).sort().reverse();
   const filtered=dates.filter(ds=>{
     const h=S.history[ds];
@@ -1786,9 +1775,8 @@ function renderHistory() {
   filtered.forEach(ds=>{
     const h=S.history[ds];
     const gc='grade-'+(h.grade==='—'?'X':h.grade);
-    const isLive = h.isLive;
     const div=document.createElement('div'); div.className='hi';
-    div.innerHTML=`<div class="hi-r1"><div class="hi-date">${fmtDate(ds)}${isLive?' <span style="font-size:.42rem;background:var(--good-fade);color:var(--good);border:1px solid var(--good-dim);padding:1px 5px;border-radius:2px;vertical-align:middle;">LIVE</span>':''}</div><div class="hi-xp">${h.xp} XP</div><div class="hi-grade ${gc}">${h.grade}</div></div><div class="hi-r2"><span><span class="tl" style="color:var(--good)">G </span>${h.trackXP?.good||0}</span><span><span class="tl" style="color:var(--bad)">B </span>${h.trackXP?.bad||0}</span><span><span class="tl" style="color:var(--ugly-lt)">U </span>${h.trackXP?.ugly||0}</span><span class="hi-q">${h.questsDone||0}/16 quests</span></div>`;
+    div.innerHTML=`<div class="hi-r1"><div class="hi-date">${fmtDate(ds)}</div><div class="hi-xp">${h.xp} XP</div><div class="hi-grade ${gc}">${h.grade}</div></div><div class="hi-r2"><span><span class="tl" style="color:var(--good)">G </span>${h.trackXP?.good||0}</span><span><span class="tl" style="color:var(--bad)">B </span>${h.trackXP?.bad||0}</span><span><span class="tl" style="color:var(--ugly-lt)">U </span>${h.trackXP?.ugly||0}</span><span class="hi-q">${h.questsDone||0}/16 quests</span></div>`;
     list.appendChild(div);
   });
 }
@@ -2331,32 +2319,116 @@ function renderSetup() {
 // ═══════════════════════════════════════════════════════
 // ARCHIVE & ROLLOVER
 // ═══════════════════════════════════════════════════════
-function archiveDate(ds) {
-  const key='alrpg_entries_'+ds;
-  const qkey='alrpg_quests_'+ds;
-  const entries=JSON.parse(localStorage.getItem(key)||'[]');
-  const quests=JSON.parse(localStorage.getItem(qkey)||'{}');
-  if(!entries.length&&!Object.values(quests).some(Boolean))return;
-  if(S.history[ds])return;
-  const g=entries.filter(e=>e.track==='good').reduce((a,e)=>a+e.xp,0);
-  const b=entries.filter(e=>e.track==='bad').reduce((a,e)=>a+e.xp,0);
-  const u=entries.filter(e=>e.track==='ugly').reduce((a,e)=>a+e.xp,0);
-  const tot=g+b+u;
-  const qd=Object.values(quests).filter(Boolean).length;
-  S.history[ds]={xp:tot,trackXP:{good:g,bad:b,ugly:u},questsDone:qd,grade:grade(tot,qd,{good:g,bad:b,ugly:u})};
+// ═══════════════════════════════════════════════════════
+// ROLLOVER — robust version catches missed midnight closes
+// ═══════════════════════════════════════════════════════
+async function archiveDateFull(ds) {
+  // Skip today — never archive an open day
+  if (ds === todayKey()) return;
+  // Skip if already archived
+  if (S.history[ds]) return;
+
+  // Pull from Firebase first for completeness
+  let entries = lsGet('entries_' + ds, []);
+  let quests  = lsGet('quests_'  + ds, {});
+
+  if (fbReady && db) {
+    try {
+      const snap = await db.doc(`${USER_DOC}/days/${ds}`).get();
+      if (snap.exists) {
+        const d = snap.data();
+        if (Array.isArray(d.entries) && d.entries.length) entries = d.entries;
+        if (d.quests && Object.keys(d.quests).length) quests = d.quests;
+        // Cache locally
+        lsSet('entries_' + ds, entries);
+        lsSet('quests_'  + ds, quests);
+      }
+    } catch(e) { console.warn('archiveDateFull Firebase read:', e.message); }
+  }
+
+  if (!entries.length && !Object.values(quests).some(Boolean)) return;
+
+  const g = entries.filter(e=>e.track==='good').reduce((a,e)=>a+e.xp,0);
+  const b = entries.filter(e=>e.track==='bad').reduce((a,e)=>a+e.xp,0);
+  const u = entries.filter(e=>e.track==='ugly').reduce((a,e)=>a+e.xp,0);
+  const tot = g+b+u;
+  const qd = Object.values(quests).filter(Boolean).length;
+
+  S.history[ds] = {
+    xp: tot,
+    trackXP: { good:g, bad:b, ugly:u },
+    questsDone: qd,
+    grade: grade(tot, qd, {good:g, bad:b, ugly:u})
+  };
+
   saveHistory();
 }
 
-function checkRollover() {
-  const today=todayKey();
-  const last=localStorage.getItem('alrpg_last_date')||'';
-  if(last&&last!==today)archiveDate(last);
-  localStorage.setItem('alrpg_last_date',today);
+async function checkRollover() {
+  const today = todayKey();
+  const last  = localStorage.getItem('alrpg_last_date') || '';
+
+  if (!last || last === today) {
+    // First open of today — just record it
+    localStorage.setItem('alrpg_last_date', today);
+    return;
+  }
+
+  // We missed at least one day — archive every day between last and today
+  const lastDate = new Date(last + 'T00:00:00');
+  const todayDate = new Date(today + 'T00:00:00');
+  const missedDays = Math.floor((todayDate - lastDate) / (1000*60*60*24));
+
+  for (let i = 1; i <= missedDays; i++) {
+    const d = new Date(lastDate);
+    d.setDate(d.getDate() + i);
+    const ds = d.toISOString().slice(0,10);
+    if (ds === today) break; // never archive today
+    await archiveDateFull(ds);
+  }
+
+  // If last was yesterday, also archive it specifically
+  await archiveDateFull(last);
+
+  // Reset today's entries and quests for a clean day
+  // Only clear if last_date was genuinely yesterday or earlier
+  if (last !== today) {
+    S.entries = [];
+    S.quests  = {};
+    lsSet('entries_' + today, []);
+    lsSet('quests_'  + today, {});
+    saveHistory();
+  }
+
+  localStorage.setItem('alrpg_last_date', today);
 }
 
 function scheduleMidnight() {
-  const now=new Date(); const mn=new Date(now); mn.setHours(24,0,0,500);
-  setTimeout(()=>{checkRollover();renderAll();scheduleMidnight();},mn-now);
+  const now = new Date();
+  const midnight = new Date(now);
+  midnight.setHours(24, 0, 0, 500);
+  const msUntilMidnight = midnight - now;
+
+  setTimeout(async () => {
+    // Archive the day that just ended
+    const yesterday = new Date();
+    yesterday.setDate(yesterday.getDate() - 1);
+    const yds = yesterday.toISOString().slice(0,10);
+    await archiveDateFull(yds);
+
+    // Clear today's log for the new day
+    S.entries = [];
+    S.quests  = {};
+    const newDay = todayKey();
+    lsSet('entries_' + newDay, []);
+    lsSet('quests_'  + newDay, {});
+    localStorage.setItem('alrpg_last_date', newDay);
+
+    // Re-render everything clean
+    renderAll();
+    renderHistory();
+    scheduleMidnight(); // schedule next midnight
+  }, msUntilMidnight);
 }
 
 // ═══════════════════════════════════════════════════════
@@ -2516,15 +2588,6 @@ async function diagnoseAndRecover() {
     } catch(e) { log(`⚠ Error on ${ds}: ${e.message}`); }
   }
 
-  // Add today as live preview
-  const today = todayKey();
-  if (S.entries.length) {
-    const t=totals(), qd=questsDone();
-    S.history[today] = { xp:t.total, trackXP:{good:t.good,bad:t.bad,ugly:t.ugly}, questsDone:qd, grade:grade(t.total,qd,t), isLive:true };
-    log(`📍 Today (${today}) — ${t.total} XP (live)`);
-    recovered++;
-  }
-
   if (recovered > 0) { saveHistory(); renderHistory(); renderRecords(); }
 
   log('');
@@ -2597,7 +2660,7 @@ async function init() {
       setSync('offline');
     }
   }
-  checkRollover();
+  await checkRollover();
   scheduleMidnight();
   renderAll();
   renderMissionTab();
