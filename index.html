@@ -82,7 +82,7 @@ body::after {
 #app {
   position: relative; z-index: 10;
   max-width: 800px; margin: 0 auto;
-  padding: 0 14px calc(72px + var(--sab));
+  padding: calc(env(safe-area-inset-top, 16px) + 12px) 14px calc(72px + var(--sab));
 }
 
 /* ── LOADING ── */
